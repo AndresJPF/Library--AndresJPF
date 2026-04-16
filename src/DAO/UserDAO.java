@@ -20,7 +20,7 @@ public class UserDAO{
 
             ps.executeUpdate();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println(e);
         }
     }
@@ -75,13 +75,13 @@ public class UserDAO{
     public void deleteUser(int id) {
         try (Connection conn = ConnectionDB.connect()) {
 
-            String sql = "DELETE FROM users WHERE id_user=?";
+            String sql = "UPDATE users SET u_status=False WHERE id_user=?";
             PreparedStatement ps = conn.prepareStatement(sql);
 
             ps.setInt(1, id);
             ps.executeUpdate();
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println(e);
         }
     }

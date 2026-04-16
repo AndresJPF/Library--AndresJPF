@@ -1,7 +1,8 @@
 package Model;
 
-import java.awt.print.Book;
 import java.util.Date;
+import Model.Book;
+import Model.User;
 
 public class Loan {
 
@@ -49,7 +50,7 @@ public class Loan {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(int user) {
         this.user = user;
     }
 
@@ -57,7 +58,7 @@ public class Loan {
         return book;
     }
 
-    public void setBook(Book book) {
+    public void setBook(int book) {
         this.book = book;
     }
 }
