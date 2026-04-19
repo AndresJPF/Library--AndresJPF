@@ -1,8 +1,6 @@
 package Model;
 
 import java.util.Date;
-import Model.Book;
-import Model.User;
 
 public class Loan {
 
@@ -50,7 +48,7 @@ public class Loan {
         return user;
     }
 
-    public void setUser(int user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -58,7 +56,7 @@ public class Loan {
         return book;
     }
 
-    public void setBook(int book) {
+    public void setBook(Book book) {
         this.book = book;
     }
 }
