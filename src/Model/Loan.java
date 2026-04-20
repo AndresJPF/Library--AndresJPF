@@ -7,12 +7,12 @@ public class Loan {
     private int idLoan;
     private Date loanDate;
     private Date returnDate;
-    private User user;
-    private Book book;
+    private int user;
+    private int book;
 
     public Loan() {}
 
-    public Loan(int idLoan, Date loanDate, Date returnDate, User user, Book book) {
+    public Loan(int idLoan, Date loanDate, Date returnDate, int user, int book) {
         this.idLoan = idLoan;
         this.loanDate = loanDate;
         this.returnDate = returnDate;
@@ -44,19 +44,19 @@ public class Loan {
         this.returnDate = returnDate;
     }
 
-    public User getUser() {
+    public int getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(int user) {
         this.user = user;
     }
 
-    public Book getBook() {
+    public int getBook() {
         return book;
     }
 
-    public void setBook(Book book) {
+    public void setBook(int book) {
         this.book = book;
     }
 }

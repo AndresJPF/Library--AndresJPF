@@ -17,7 +17,7 @@ public class BookDAO {
 
             ps.setString(1, book.getName());
             ps.setString(2, book.getIsbn());
-            ps.setDate(3, book.getYear());
+            ps.setDate(3, (Date) book.getYear());
             ps.setString(4, book.getAuthor());
 
             ps.executeUpdate();
@@ -49,7 +49,7 @@ public class BookDAO {
         }catch (Exception e) {
             System.out.println(e);
         }
-        
+
     return list;
 
     }
@@ -61,7 +61,7 @@ public class BookDAO {
 
             ps.setString(1, book.getName());
             ps.setString(2, book.getIsbn());
-            ps.setDate(3, book.getYear());
+            ps.setDate(3, (Date) book.getYear());
             ps.setString(4, book.getAuthor());
             ps.setInt(5, book.getIdBook());
 

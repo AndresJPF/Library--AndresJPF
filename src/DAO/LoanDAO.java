@@ -18,8 +18,8 @@ public class LoanDAO {
 
             ps.setDate(1, new Date(loan.getLoanDate().getTime()));
             ps.setDate(2, new Date(loan.getReturnDate().getTime()));
-            ps.setInt(3, loan.getUser().getIdUser());
-            ps.setInt(4, loan.getBook().getIdBook());
+            ps.setInt(3, loan.getUser());
+            ps.setInt(4, loan.getBook());
 
             ps.executeUpdate();
         }catch (SQLException e){
