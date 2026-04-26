@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 
-@WebServerlet("/users")
+@WebServlet("/users")
 public class UserController extends HttpServlet{
     private UserDAO userDAO;
     private Gson gson;
@@ -59,4 +59,38 @@ public class UserController extends HttpServlet{
                 res.getWriter().write("{\"message\":\"User created successfully\"}");
 
     }
+    
+    //PUT
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse res)
+    throws ServletException, IOException {
+
+    User user = gson.fromJson(req.getReader(), User.class);
+
+    userDAO.updateUser(user);
+
+    res.setContentType("application/json");
+    res.getWriter().write("{\"message\":\"User updated successfully\"}");
+    }
+    
+    
+    //DELETE
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse res)
+        throws ServletException, IOException {
+
+    String idParam = req.getParameter("id");
+
+    if (idParam != null) {
+        int id = Integer.parseInt(idParam);
+        userDAO.deleteUser(id);
+
+        res.setContentType("application/json");
+        res.getWriter().write("{\"message\":\"User deleted successfully\"}");
+    } else {
+        res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        res.getWriter().write("{\"message\":\"ID is required\"}");
+        }
+    }
+    
 }

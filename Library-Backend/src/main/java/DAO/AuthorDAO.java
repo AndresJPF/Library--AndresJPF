@@ -22,7 +22,7 @@ public class AuthorDAO {
     public List<Author> getAuthors(){
         List<Author> list = new ArrayList<>();
         try (Connection conn = ConnectionDB.connect()){
-            String sql = "SELECT * FROM authors";
+            String sql = "SELECT * FROM authors WHERE a_status=true";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
 
@@ -44,7 +44,7 @@ public class AuthorDAO {
     //UPDATE
     public void updateAuthor(Author author){
         try(Connection conn = ConnectionDB.connect()){
-            String sql = "UPDATE authors SET name=?, lastname=?, nationality=? WHERE id_authors=?";
+            String sql = "UPDATE authors SET name=?, lastname=?, nationality=? WHERE id_author=?";
             PreparedStatement ps = conn.prepareStatement(sql);
 
             ps.setString(1, author.getName());
@@ -61,7 +61,7 @@ public class AuthorDAO {
     public void deletAuthor(int id){
         try(Connection conn = ConnectionDB.connect()){
 
-            String sql = "UPDATE authors SET a_status=False id_author";
+            String sql = "UPDATE authors SET a_status=False WHERE id_author=?";
             PreparedStatement ps = conn.prepareStatement(sql);
 
             ps.setInt(1, id);
