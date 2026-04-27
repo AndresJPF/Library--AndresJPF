@@ -19,7 +19,7 @@ public class AuthorDAO {
     }
 
     //READ
-    public List<Author> getAuthors(){
+    public List<Author> getAuthor(){
         List<Author> list = new ArrayList<>();
         try (Connection conn = ConnectionDB.connect()){
             String sql = "SELECT * FROM authors WHERE a_status=true";

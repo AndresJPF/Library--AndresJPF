@@ -30,7 +30,7 @@ public class AuthorController extends HttpServlet {
         res.setContentType("application/json");
         res.setCharacterEncoding("UTF-8");
 
-        List<Author> authors = authorDAO.getAuthors();
+        List<Author> authors = authorDAO.getAuthor();
         String json = gson.toJson(authors);
 
         res.getWriter().write(json);

@@ -24,11 +24,23 @@ public class UserController extends HttpServlet{
         gson = new Gson();
 
     }
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse res)
+        throws ServletException, IOException {
+
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+            res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        }
 
     //GET
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
+        
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+            res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
             res.setContentType("application/json");
             res.setCharacterEncoding("UTF-8");
@@ -43,6 +55,12 @@ public class UserController extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+                
+                res.setHeader("Access-Control-Allow-Origin", "*");
+                res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+                res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        
+        
                 String name = req.getParameter("name");;
                 String lastname = req.getParameter("lastname");
                 String email = req.getParameter("email");
@@ -63,34 +81,42 @@ public class UserController extends HttpServlet{
     //PUT
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse res)
-    throws ServletException, IOException {
+        throws ServletException, IOException {
+        
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+            res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-    User user = gson.fromJson(req.getReader(), User.class);
+            User user = gson.fromJson(req.getReader(), User.class);
 
-    userDAO.updateUser(user);
+            userDAO.updateUser(user);
 
-    res.setContentType("application/json");
-    res.getWriter().write("{\"message\":\"User updated successfully\"}");
-    }
+            res.setContentType("application/json");
+            res.getWriter().write("{\"message\":\"User updated successfully\"}");
+        }
     
     
     //DELETE
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
+        
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+        res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-    String idParam = req.getParameter("id");
+        String idParam = req.getParameter("id");
 
-    if (idParam != null) {
-        int id = Integer.parseInt(idParam);
-        userDAO.deleteUser(id);
+        if (idParam != null) {
+            int id = Integer.parseInt(idParam);
+            userDAO.deleteUser(id);
 
-        res.setContentType("application/json");
-        res.getWriter().write("{\"message\":\"User deleted successfully\"}");
-    } else {
-        res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        res.getWriter().write("{\"message\":\"ID is required\"}");
+            res.setContentType("application/json");
+            res.getWriter().write("{\"message\":\"User deleted successfully\"}");
+        } else {
+            res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            res.getWriter().write("{\"message\":\"ID is required\"}");
+            }
         }
-    }
     
 }
