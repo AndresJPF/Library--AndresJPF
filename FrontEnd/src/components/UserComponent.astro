@@ -10,5 +10,5 @@ interface UserComponent {
 const { user } = Astro.props as { user: UserComponent };
 ---
 <li>
-    {user.name} {user.lastName}
+    {user.idUser}, {user.name}, {user.lastName}
 </li>

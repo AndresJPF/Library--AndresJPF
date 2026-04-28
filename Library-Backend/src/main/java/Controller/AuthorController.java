@@ -10,7 +10,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/authors")
+@WebServlet("/authors/*")
 public class AuthorController extends HttpServlet {
 
     private AuthorDAO authorDAO;
@@ -27,14 +27,32 @@ public class AuthorController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
 
-        res.setContentType("application/json");
-        res.setCharacterEncoding("UTF-8");
+                res.setContentType("application/json");
+                res.setCharacterEncoding("UTF-8");
+                
+                String pathInfo = req.getPathInfo();
 
-        List<Author> authors = authorDAO.getAuthor();
-        String json = gson.toJson(authors);
+                if(pathInfo == null || pathInfo.equals("/")){
+                    List<Author> authors = authorDAO.getAuthor();
+                    String json = gson.toJson(authors);
 
-        res.getWriter().write(json);
-    }
+                    res.getWriter().write(json);
+                }else{
+                    try{
+                      int id = Integer.parseInt(pathInfo.substring(1));  
+                      Author author = authorDAO.getAuthorById(id);
+                      if (author != null){
+                          res.getWriter().write(gson.toJson(author));
+                      }else{
+                          res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                            res.getWriter().write("{\"error\":\"Loan not found\"}");
+                      }
+                    }catch(NumberFormatException e) {
+                        res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                        res.getWriter().write("{\"error\":\"Invalid ID format\"}");
+                    }
+                }
+            }
 
     // POST
     @Override

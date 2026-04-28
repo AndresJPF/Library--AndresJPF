@@ -46,8 +46,8 @@ public class User {
         return name;
     }
 
-    public void setName(String lastName) {
-        this. lastName = lastName;
+    public void setName(String Name) {
+        this.name = Name;
     }
     public String getLastName() {
         return lastName;

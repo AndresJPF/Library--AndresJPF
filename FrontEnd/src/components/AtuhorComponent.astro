@@ -1,0 +1,15 @@
+---
+interface authorComponent{
+    idAuthor : number;
+    name:string;
+    lastname:string;
+    nationality:string;
+
+}
+
+const {author} = Astro.props as {author : authorComponent}
+---
+
+<li>
+   {author.idAuthor} {author.name} {author.lastname} {author.nationality}
+</li>

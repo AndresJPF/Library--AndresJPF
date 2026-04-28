@@ -1,6 +1,7 @@
 package Controller;
 
 import DAO.UserDAO;
+import Model.Loan;
 import Model.User;
 import com.google.gson.Gson;
 
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 
-@WebServlet("/users")
+@WebServlet("/users/*")
 public class UserController extends HttpServlet{
     private UserDAO userDAO;
     private Gson gson;
@@ -24,31 +25,38 @@ public class UserController extends HttpServlet{
         gson = new Gson();
 
     }
-    @Override
-    protected void doOptions(HttpServletRequest req, HttpServletResponse res)
-        throws ServletException, IOException {
-
-            res.setHeader("Access-Control-Allow-Origin", "*");
-            res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-            res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        }
-
+   
     //GET
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
         
-            res.setHeader("Access-Control-Allow-Origin", "*");
-            res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-            res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
             res.setContentType("application/json");
             res.setCharacterEncoding("UTF-8");
+            
+            String pathInfo = req.getPathInfo();
+            
 
-            List<User> users = userDAO.getUsers();
-
-            String json = gson.toJson(users);
-            res.getWriter().write(json);
+            if (pathInfo == null || pathInfo.equals("/")) {
+                // GET ALL
+                List<User> users = userDAO.getUsers();
+                res.getWriter().write(gson.toJson(users));
+            } else {
+                // GET BY ID
+                try {
+                    int id = Integer.parseInt(pathInfo.substring(1));
+                    User user = userDAO.getUserById(id);
+                    if (user != null) {
+                        res.getWriter().write(gson.toJson(user));
+                    } else {
+                        res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                        res.getWriter().write("{\"error\":\"Loan not found\"}");
+                    }
+                } catch (NumberFormatException e) {
+                    res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    res.getWriter().write("{\"error\":\"Invalid ID format\"}");
+                }
+            }
     }
 
     //POST

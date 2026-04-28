@@ -2,59 +2,34 @@ package Model;
 import java.util.Date;
 
 public class Book {
-
-    private  int idBook;
-    private  String name;
+    private int idBook;
+    private String title;
     private String isbn;
-    private Date year;
-    private String author;
+    private String year;
+    private int author;
 
-    public Book(){}
+    public Book() {}
 
-    public Book(int idBook, String name, String isbn, Date year, String author){
+    public Book(int idBook, String title, String isbn, String year, int author) {
         this.idBook = idBook;
-        this.name = name;
+        this.title = title;
         this.isbn = isbn;
         this.year = year;
         this.author = author;
-
-
-    }
-    public int getIdBook() {
-        return idBook;
     }
 
-    public void setIdBook(int idBook) {
-        this.idBook = idBook;
-    }
+    public int getIdBook() { return idBook; }
+    public void setIdBook(int idBook) { this.idBook = idBook; }
 
-    public String getName() {
-        return name;
-    }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getIsbn() { return isbn; }
+    public void setIsbn(String isbn) { this.isbn = isbn; }
 
-    public String getIsbn() {
-        return isbn;
-    }
+    public String getYear() { return year; }
+    public void setYear(String year) { this.year = year; }
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public Date getYear() {return year;}
-
-    public void setYear(Date year) {
-        this.year = year;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+    public int getAuthor() { return author; }
+    public void setAuthor(int author) { this.author = author; }
 }

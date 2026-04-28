@@ -11,8 +11,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
-@WebServlet("/loans")
+@WebServlet("/loans/*")
 public class LoanController extends HttpServlet {
 
     private LoanDAO loanDAO;
@@ -24,7 +25,38 @@ public class LoanController extends HttpServlet {
         gson = new Gson();
     }
 
-    // POST - Crear préstamo
+    // GET 
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse res)
+            throws ServletException, IOException {
+            res.setContentType("application/json");
+            res.setCharacterEncoding("UTF-8");
+
+            String pathInfo = req.getPathInfo();
+
+            if (pathInfo == null || pathInfo.equals("/")) {
+                // GET ALL
+                List<Loan> loans = loanDAO.getLoan();
+                res.getWriter().write(gson.toJson(loans));
+            } else {
+                // GET BY ID
+                try {
+                    int id = Integer.parseInt(pathInfo.substring(1));
+                    Loan loan = loanDAO.getLoanById(id);
+                    if (loan != null) {
+                        res.getWriter().write(gson.toJson(loan));
+                    } else {
+                        res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                        res.getWriter().write("{\"error\":\"Loan not found\"}");
+                    }
+                } catch (NumberFormatException e) {
+                    res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    res.getWriter().write("{\"error\":\"Invalid ID format\"}");
+                }
+            }
+    }
+
+    // POST
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
@@ -46,6 +78,7 @@ public class LoanController extends HttpServlet {
 
         loanDAO.addLoan(loan);
 
+        res.setContentType("application/json");
         res.getWriter().write("{\"message\":\"Loan created\"}");
     }
 }

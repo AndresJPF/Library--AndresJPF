@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import Database.ConnectionDB;
 import Model.Author;
+import Model.Loan;
 import Model.User;
 
 
@@ -39,6 +40,26 @@ public class AuthorDAO {
             System.out.println(e);
         }
         return list;
+    }
+    
+    public Author getAuthorById(int id) {
+    Author a = null;
+    try (Connection conn = ConnectionDB.connect()) {
+        String sql = "SELECT * FROM authors WHERE id_author = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            a = new Author();
+            a.setIdAuthor(rs.getInt("id_author"));
+            a.setName(rs.getString("name"));
+            a.setLastName(rs.getString("lastname"));
+            a.setNationality(rs.getString("nationality"));
+        }
+    } catch (SQLException e) {
+        System.out.println("Error en getLoanById: " + e.getMessage());
+    }return a;
+    
     }
 
     //UPDATE

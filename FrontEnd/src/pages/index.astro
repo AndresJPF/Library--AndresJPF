@@ -2,23 +2,27 @@
 import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 import UserComponent from '../components/UserComponent.astro';
+import AtuhorComponent from '../components/AtuhorComponent.astro';
 
 
 const response = await fetch("http://localhost:8080/Library-Backend/users");
 const users = await response.json();
+const response1 = await fetch("http://localhost:8080/Library-Backend/authors")
+const author = await response1.json();
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 
-let user = [];
+//let user = [];
 
-try {
-  const response = await fetch("http://localhost:8080/Library-Backend/users");
-  user = await response.json();
-  console.log(users);
-} catch (error) {
-  console.log("Error conectando al backend:", error);
-}
+// try {
+//   const response = await fetch("http://localhost:8080/Library-Backend/users");
+//   user = await response.json();
+//   console.log(users);
+// } catch (error) {
+//   console.log("Error conectando al backend:", error);
+// }
+
 ---
 
 <!-- <Layout>
@@ -30,5 +34,12 @@ try {
 <ul>
   {users.map((user:any) => (
     <UserComponent user={user} />
+  ))}
+</ul>
+
+<h1>Lista de Autores</h1>
+<ul>
+  {author.map((author:any) =>(
+    <AtuhorComponent author={author}/>
   ))}
 </ul>

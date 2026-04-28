@@ -11,7 +11,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/books")
+@WebServlet("/books/*")
 public class BookController extends HttpServlet {
 
     private BookDAO bookDAO;
@@ -28,32 +28,53 @@ public class BookController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
 
-        res.setContentType("application/json");
-        List<Book> books = bookDAO.getBooks();
-        res.getWriter().write(gson.toJson(books));
-    }
+                res.setContentType("application/json");
+                res.setCharacterEncoding("UTF-8");
+                
+                String pathInfo = req.getPathInfo();
+                
+                if (pathInfo == null || pathInfo.equals("/")) {
+                    //GET ALL
+                    List<Book> books = bookDAO.getBooks();
+                    String json = gson.toJson(books);
+                    res.getWriter().write(json);
+                }else{
+                    // Get By Id
+                    try{
+                        int id = Integer.parseInt(pathInfo.substring(1));
+                        Book book = bookDAO.getBookById(id);
+                        if (book != null){
+                            res.getWriter().write(gson.toJson(book));
+                        }else {
+                            res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                            res.getWriter().write("{\"error\":\"Loan not found\"}");
+                        }
+                    }catch (NumberFormatException e) {
+                        res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                        res.getWriter().write("{\"error\":\"Invalid ID format\"}");
+                    }
+                }
+            }           
 
     // POST
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
 
-        String name = req.getParameter("name");
-        String isbn = req.getParameter("isbn");
-        int authorId = Integer.parseInt(req.getParameter("authorId"));
+                String title = req.getParameter("title");
+                String isbn = req.getParameter("isbn");
+                int id_author = Integer.parseInt(req.getParameter("id_author"));
 
-        Author author = new Author();
-        author.setIdAuthor(authorId);
+                Book book = new Book();
+                book.setTitle(title);
+                book.setIsbn(isbn);
+                book.setAuthor(id_author);
 
-        Book book = new Book();
-        book.setName(name);
-        book.setIsbn(isbn);
-        book.setAuthor(name);
+                bookDAO.addBook(book);
 
-        bookDAO.addBook(book);
-
-        res.getWriter().write("{\"message\":\"Book created\"}");
-    }
+                res.setContentType("application/json");
+                res.getWriter().write("{\"message\":\"Book created\"}");
+            }
 
     // PUT
     @Override
@@ -61,12 +82,12 @@ public class BookController extends HttpServlet {
             throws ServletException, IOException {
 
         int id = Integer.parseInt(req.getParameter("id"));
-        String name = req.getParameter("name");
+        String title = req.getParameter("title");
         String isbn = req.getParameter("isbn");
 
         Book book = new Book();
         book.setIdBook(id);
-        book.setName(name);
+        book.setTitle(title);
         book.setIsbn(isbn);
 
         bookDAO.updateBook(book);

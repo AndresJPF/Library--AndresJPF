@@ -3,6 +3,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import Database.ConnectionDB;
+import Model.Loan;
 import Model.User;
 
 public class UserDAO{
@@ -28,44 +29,48 @@ public class UserDAO{
 
     //  READ (LISTAR)
     public List<User> getUsers() {
-    List<User> list = new ArrayList<>();
+        List<User> list = new ArrayList<>();
+        try (Connection conn = ConnectionDB.connect()) {
+            String sql = "SELECT * FROM users";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
 
+            while (rs.next()) {
+                User u = new User();
+                u.setIdUser(rs.getInt("id_user"));
+                u.setName(rs.getString("name"));
+                u.setLastName(rs.getString("lastname"));
+                u.setEmail(rs.getString("email"));
+                u.setPhone(rs.getString("phone"));
+                list.add(u);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error en getLoan: " + e.getMessage());
+        }
+        return list;
+    }
+    
+    public User getUserById(int id) {
+    User u = null;
     try (Connection conn = ConnectionDB.connect()) {
-
-        // 👇 Ver base activa
-        Statement check = conn.createStatement();
-        ResultSet db = check.executeQuery("SELECT DATABASE()");
-        if (db.next()) {
-            System.out.println("Base activa en backend: " + db.getString(1));
-        }
-
-        String sql = "SELECT COUNT(*) FROM users";
-        ResultSet countRs = check.executeQuery(sql);
-        if (countRs.next()) {
-            System.out.println("Usuarios en backend: " + countRs.getInt(1));
-        }
-
-        String sql2 = "SELECT * FROM users";
-        Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery(sql2);
-
-        while (rs.next()) {
-            User u = new User();
+        String sql = "SELECT * FROM users WHERE id_user = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            u = new User();
             u.setIdUser(rs.getInt("id_user"));
             u.setName(rs.getString("name"));
             u.setLastName(rs.getString("lastname"));
             u.setEmail(rs.getString("email"));
             u.setPhone(rs.getString("phone"));
-
-            list.add(u);
         }
-
-    } catch (Exception e) {
-        System.out.println(e);
+    } catch (SQLException e) {
+        System.out.println("Error en getLoanById: " + e.getMessage());
+        
+        }
+        return u;
     }
-
-    return list;
-}
 
     //  UPDATE
     public void updateUser(User user) {
