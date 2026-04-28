@@ -1,0 +1,25 @@
+---
+interface AuthorComponent {
+  idAuthor: number;
+  name: string;
+  lastname: string;
+  nationality: string;
+}
+const { author } = Astro.props as { author: AuthorComponent };
+---
+<tr id={`author-${author.idAuthor}`} class="table-row">
+  <td>{author.idAuthor}</td>
+  <td>{author.name}</td>
+  <td>{author.lastname}</td>
+  <td>{author.nationality}</td>
+  <td class="actions">
+    <button
+      class="btn-edit"
+      onclick={`openEditAuthor(${author.idAuthor}, '${author.name}', '${author.lastname}', '${author.nationality}')`}
+    >Editar</button>
+    <button
+      class="btn-delete"
+      onclick={`deleteAuthor(${author.idAuthor})`}
+    >Eliminar</button>
+  </td>
+</tr>

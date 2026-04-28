@@ -1,0 +1,23 @@
+---
+interface LoanComponent {
+  idLoan: number;
+  loanDate: string;
+  returnDate: string;
+  user: number;
+  book: number;
+}
+const { loan } = Astro.props as { loan: LoanComponent };
+---
+<tr id={`loan-${loan.idLoan}`} class="table-row">
+  <td>{loan.idLoan}</td>
+  <td>{loan.loanDate}</td>
+  <td>{loan.returnDate}</td>
+  <td>{loan.user}</td>
+  <td>{loan.book}</td>
+  <td class="actions">
+    <button
+      class="btn-delete"
+      onclick={`deleteLoan(${loan.idLoan})`}
+    >Eliminar</button>
+  </td>
+</tr>

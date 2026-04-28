@@ -1,0 +1,27 @@
+---
+interface BookComponent {
+  idBook: number;
+  title: string;
+  isbn: string;
+  year: string;
+  author: number;
+}
+const { book } = Astro.props as { book: BookComponent };
+---
+<tr id={`book-${book.idBook}`} class="table-row">
+  <td>{book.idBook}</td>
+  <td>{book.title}</td>
+  <td>{book.isbn}</td>
+  <td>{book.year}</td>
+  <td>{book.author}</td>
+  <td class="actions">
+    <button
+      class="btn-edit"
+      onclick={`openEditBook(${book.idBook}, '${book.title}', '${book.isbn}', '${book.year}', ${book.author})`}
+    >Editar</button>
+    <button
+      class="btn-delete"
+      onclick={`deleteBook(${book.idBook})`}
+    >Eliminar</button>
+  </td>
+</tr>

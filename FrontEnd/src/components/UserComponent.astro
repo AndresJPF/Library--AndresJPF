@@ -6,9 +6,23 @@ interface UserComponent {
   email: string;
   phone: string;
 }
-
 const { user } = Astro.props as { user: UserComponent };
 ---
-<li>
-    {user.idUser}, {user.name}, {user.lastName}
-</li>
+<tr id={`user-${user.idUser}`} class="table-row">
+  <td>{user.idUser}</td>
+  <td>{user.name}</td>
+  <td>{user.lastName}</td>
+  <td>{user.email}</td>
+  <td>{user.phone}</td>
+  <td class="actions">
+    <button
+      class="btn-edit"
+      onclick={`openEditUser(${user.idUser}, '${user.name}', '${user.lastName}', '${user.email}', '${user.phone}')`}
+    >Editar</button>
+    <button
+      class="btn-delete"
+      onclick={`deleteUser(${user.idUser})`}
+    >Eliminar</button>
+  </td>
+</tr>
+ 
