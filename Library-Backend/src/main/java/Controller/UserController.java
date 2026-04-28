@@ -64,11 +64,6 @@ public class UserController extends HttpServlet{
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
                 
-                res.setHeader("Access-Control-Allow-Origin", "*");
-                res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-                res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        
-        
                 String name = req.getParameter("name");
                 String lastname = req.getParameter("lastname");
                 String email = req.getParameter("email");
@@ -90,10 +85,6 @@ public class UserController extends HttpServlet{
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
-        
-            res.setHeader("Access-Control-Allow-Origin", "*");
-            res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-            res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
             User user = gson.fromJson(req.getReader(), User.class);
 
