@@ -31,7 +31,7 @@ public class UserDAO{
     public List<User> getUsers() {
         List<User> list = new ArrayList<>();
         try (Connection conn = ConnectionDB.connect()) {
-            String sql = "SELECT * FROM users";
+            String sql = "SELECT * FROM users WHERE u_status = true";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(sql);
 

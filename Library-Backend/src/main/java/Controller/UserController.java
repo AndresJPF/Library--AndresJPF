@@ -69,7 +69,7 @@ public class UserController extends HttpServlet{
                 res.setHeader("Access-Control-Allow-Headers", "Content-Type");
         
         
-                String name = req.getParameter("name");;
+                String name = req.getParameter("name");
                 String lastname = req.getParameter("lastname");
                 String email = req.getParameter("email");
                 String phone = req.getParameter("phone");
@@ -108,10 +108,6 @@ public class UserController extends HttpServlet{
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
-        
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-        res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
         String idParam = req.getParameter("id");
 
